@@ -3,49 +3,771 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="./css/style.css" />
-    <link rel="stylesheet" href="./css/reset.css" />
-    <title>Peter Toussaint Portfolio Website</title>
+    <title>Your Name - Software Engineer</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, sans-serif;
+        background: #0a0a0f;
+        color: #ffffff;
+        overflow-x: hidden;
+        line-height: 1.6;
+      }
+
+      /* Variables */
+      :root {
+        --primary: #00f5ff;
+        --secondary: #ff006e;
+        --accent: #8b5cf6;
+        --dark: #0a0a0f;
+        --glass: rgba(255, 255, 255, 0.1);
+        --text: #ffffff;
+        --text-muted: #a0a0a0;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Background Animation */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+        background: radial-gradient(
+            circle at 20% 80%,
+            rgba(0, 245, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 20%,
+            rgba(255, 0, 110, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 40%,
+            rgba(139, 92, 246, 0.1) 0%,
+            transparent 50%
+          );
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 50px;
+        padding: 15px 30px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 30px;
+        align-items: center;
+      }
+
+      .logo {
+        font-weight: 900;
+        font-size: 18px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-right: 20px;
+      }
+
+      .nav-links a {
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 8px 16px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-links a:hover {
+        background: rgba(0, 245, 255, 0.2);
+        color: var(--primary);
+        transform: translateY(-2px);
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 100px;
+      }
+
+      .hero-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        width: 100%;
+      }
+
+      .hero-text h1 {
+        font-size: clamp(3rem, 8vw, 5rem);
+        font-weight: 900;
+        line-height: 1.1;
+        margin-bottom: 20px;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .hero-text .subtitle {
+        font-size: 1.5rem;
+        color: var(--text-muted);
+        margin-bottom: 30px;
+        font-weight: 300;
+      }
+
+      .typing-text {
+        font-size: 1.2rem;
+        color: var(--primary);
+        font-weight: 600;
+        margin-bottom: 40px;
+        height: 40px;
+      }
+
+      .cta-buttons {
+        display: flex;
+        gap: 20px;
+      }
+
+      .btn {
+        padding: 15px 30px;
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        color: var(--dark);
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(0, 245, 255, 0.3);
+      }
+
+      .btn-glass {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(20px);
+        color: var(--text);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .btn-glass:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-3px);
+      }
+
+      /* Profile Image */
+      .profile-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .profile-image {
+        width: 450px;
+        height: 450px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-align: center;
+        position: relative;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      .profile-image::before {
+        content: "";
+        position: absolute;
+        inset: -5px;
+        border-radius: 50%;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary),
+          var(--accent)
+        );
+        z-index: -1;
+        animation: rotate 10s linear infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      @keyframes rotate {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Sections */
+      .section {
+        padding: 100px 0;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 20px;
+      }
+
+      .section-subtitle {
+        text-align: center;
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 60px;
+      }
+
+      /* Glass Cards */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 40px;
+        transition: all 0.3s ease;
+      }
+
+      .glass-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-10px);
+        box-shadow: 0 25px 50px rgba(0, 245, 255, 0.2);
+      }
+
+      /* Skills Grid */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+      }
+
+      .skill-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, var(--secondary), var(--accent));
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+      }
+
+      .skill-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 20px;
+        color: var(--primary);
+        text-align: center;
+      }
+
+      .skill-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+      }
+
+      .skill-tag {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .skill-tag:hover {
+        background: var(--primary);
+        color: var(--dark);
+        transform: translateY(-2px);
+      }
+
+      /* Projects Grid */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 30px;
+      }
+
+      .project-card {
+        border-radius: 20px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .project-image {
+        height: 200px;
+        background: linear-gradient(
+          135deg,
+          var(--primary),
+          var(--secondary),
+          var(--accent)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 1.2rem;
+      }
+
+      .project-info {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        padding: 30px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .project-title {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        color: var(--primary);
+      }
+
+      .project-description {
+        color: var(--text-muted);
+        line-height: 1.6;
+        margin-bottom: 20px;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 15px;
+      }
+
+      .project-link {
+        padding: 10px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 20px;
+        color: var(--text);
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+
+      .project-link:hover {
+        background: var(--primary);
+        color: var(--dark);
+        transform: translateY(-2px);
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+      }
+
+      /* Contact Section */
+      .contact-links {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+      }
+
+      .contact-link {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 25px;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50px;
+        color: var(--text);
+        text-decoration: none;
+        transition: all 0.3s ease;
+      }
+
+      .contact-link:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 15px 30px rgba(0, 245, 255, 0.2);
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .hero-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .nav-links {
+          gap: 15px;
+        }
+
+        .nav-links a {
+          padding: 5px 10px;
+          font-size: 14px;
+        }
+
+        .cta-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .contact-links {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      /* Animations */
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.6s ease;
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    </style>
   </head>
   <body>
-    <section class="main">
-      <nav>
-        <section class="logo">
-          <img src="./images/PT SOFTWARE DEVELOPER LOGO.png" />
-        </section>
-        <ul>
-          <li><a href="./index.html">HOME</a></li>
-          <li><a href="./about.html">ABOUT</a></li>
-          <li><a href="./work.html">WORK</a></li>
-          <li><a href="mailto:toussa91@gmail.com">CONTACT</a></li>
-        </ul>
-        <section class="social-links">
-          <a href="https://www.linkedin.com/in/petertoussaint" target="_blank"
-            ><img src="./images/linkedn_logo.png" class="linkedn"
-          /></a>
-          <a href="https://github.com/Peter2oussaint" target="_blank"
-            ><img src="./images/github_logo.png" class="github"
-          /></a>
-          <a href="https://www.youtube.com/@pdevs3517" target="_blank"
-            ><img src="./images/youtube_logo.png" class="youtube"
-          /></a>
-        </section>
-      </nav>
-      <section class="main-text">
-        <h1>PETER</h1>
-        <h2>TOUSSAINT</h2>
-        <h3>FROM IDEATION TO WEB CREATION</h3>
-        <p>
-          A creative web developer with a heart <br />of gold and breaks the
-          mold
+    <!-- Background -->
+    <div class="bg-animation"></div>
+
+    <!-- Navigation -->
+    <nav>
+      <div class="nav-links">
+        <div class="logo">PT</div>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-text">
+            <h1>Peter Toussaint</h1>
+            <p class="subtitle">Crafting Digital Experiences</p>
+            <div class="typing-text" id="typing">Full-Stack Developer</div>
+            <div class="cta-buttons">
+              <a href="#projects" class="btn btn-primary"> ✦ View Projects </a>
+              <a href="#contact" class="btn btn-glass"> 💬 Let's Talk </a>
+            </div>
+          </div>
+          <div class="profile-container">
+            <div class="profile-image">
+              <img src="./image1.png" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section">
+      <div class="container">
+        <h2 class="section-title fade-in">About Me</h2>
+        <p class="section-subtitle fade-in">
+          Passionate about creating innovative solutions
         </p>
-      </section>
+        <div class="glass-card fade-in">
+          <p
+            style="
+              font-size: 1.2rem;
+              line-height: 1.8;
+              text-align: center;
+              color: var(--text-muted);
+            "
+          >
+            I'm Peter Toussaint, a full-stack software engineer who transitioned
+            from finance to tech while pursuing my passions in music,
+            skateboarding, and breakdancing. My experience with JavaScript,
+            React, Node.js, and MongoDB is driven by a desire to build
+            applications that genuinely improve how people interact with
+            technology. The analytical mindset from my finance background now
+            fuels my approach to creating solutions that deliver real value for
+            users. Whether I'm optimizing web performance or mentoring others in
+            skateboarding, breakdancing, and DJing, I'm passionate about
+            collaboration and building meaningful projects that make a
+            difference in how people achieve their goals.
+          </p>
+        </div>
+      </div>
     </section>
-    <section class="hero">
-      <section class="hero-image">
-        <img src="./images/hero_image.jpg" />
-      </section>
-      <section class="hero-image-shadow"></section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section">
+      <div class="container">
+        <h2 class="section-title fade-in">Skills & Expertise</h2>
+        <p class="section-subtitle fade-in">Technologies I work with</p>
+        <div class="skills-grid">
+          <div class="glass-card fade-in">
+            <div class="skill-icon">🎨</div>
+            <h3 class="skill-title">Frontend</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">React</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">TypeScript</span>
+              <!-- <span class="skill-tag">Next.js</span> -->
+              <span class="skill-tag">Tailwind</span>
+              <span class="skill-tag">HTML</span>
+              <span class="skill-tag">CSS</span>
+            </div>
+          </div>
+          <div class="glass-card fade-in">
+            <div class="skill-icon">⚡</div>
+            <h3 class="skill-title">Backend</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Node.js</span>
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">MongoDB</span>
+              <span class="skill-tag">MySQL</span>
+              <!-- <span class="skill-tag">Redis</span> -->
+            </div>
+          </div>
+          <div class="glass-card fade-in">
+            <div class="skill-icon">☁️</div>
+            <h3 class="skill-title">DevOps</h3>
+            <div class="skill-tags">
+              <span class="skill-tag">Docker</span>
+              <span class="skill-tag">Kubernetes</span>
+              <!-- <span class="skill-tag">AWS</span> -->
+              <span class="skill-tag">CI/CD</span>
+              <!-- <span class="skill-tag">Terraform</span> -->
+              <span class="skill-tag">Monitoring</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="container">
+        <h2 class="section-title fade-in">Featured Work</h2>
+        <p class="section-subtitle fade-in">Some of my recent projects</p>
+        <div class="projects-grid">
+          <div class="project-card fade-in">
+            <div class="project-image">
+              <img src="./chronos_resized_600.webp" />
+            </div>
+            <div class="project-info">
+              <h3 class="project-title">Chronos</h3>
+              <p class="project-description">
+                Chronos is a comprehensive developer tool that monitors the
+                health and web traffic for containerized (Docker & Kubernetes)
+                and non-containerized microservices communicated via REST APIs
+                or gRPC, whether hosted locally or on Amazon Web Services (AWS).
+                Use Chronos to see real-time data monitoring and receive
+                automated notifications over Slack or email.
+              </p>
+              <div class="project-links">
+                <a href="#" class="project-link">Live Demo</a>
+                <a
+                  href="https://github.com/open-source-labs/Chronos"
+                  class="project-link"
+                  >GitHub</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="project-card fade-in">
+            <div class="project-image">🌐 Project Screenshot</div>
+            <div class="project-info">
+              <h3 class="project-title">Intune</h3>
+              <p class="project-description">
+                Intune is a music discovery app built with React that helps
+                users build harmonically compatible playlists using music theory
+                and ChatGPT-powered recommendations. Users can create accounts,
+                sign in, and search for artists or filter songs by musical key.
+                The app stores songs along with their key and BPM in a fast,
+                searchable database. Intune is designed to support playlist
+                building for DJs and music lovers alike.
+              </p>
+              <div class="project-links">
+                <a href="#" class="project-link">Live Demo</a>
+                <a href="#" class="project-link">GitHub</a>
+              </div>
+            </div>
+          </div>
+          <!-- <div class="project-card fade-in">
+                    <div class="project-image">
+                        📱 Project Screenshot
+                    </div>
+                    <div class="project-info">
+                        <h3 class="project-title">Mobile App</h3>
+                        <p class="project-description">
+                            Cross-platform mobile application with offline capabilities, 
+                            real-time sync, and native performance using React Native.
+                        </p>
+                        <div class="project-links">
+                            <a href="#" class="project-link">Live Demo</a>
+                            <a href="#" class="project-link">GitHub</a>
+                        </div>
+                    </div>
+                </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="container">
+        <h2 class="section-title fade-in">Let's Connect</h2>
+        <p class="section-subtitle fade-in">
+          Ready to bring your ideas to life
+        </p>
+        <div class="contact-links">
+          <a href="mailto:toussa91@gmail.com" class="contact-link">
+            <span>📧</span>
+            <span>Email Me</span>
+          </a>
+          <a
+            href="https://www.linkedin.com/in/petertoussaint/"
+            class="contact-link"
+          >
+            <span>💼</span>
+            <span>LinkedIn</span>
+          </a>
+          <a href="https://github.com/Peter2oussaint" class="contact-link">
+            <span>💻</span>
+            <span>GitHub</span>
+          </a>
+          <a href="https://x.com/Ctrl_Alt_Pete" class="contact-link">
+            <span>🐦</span>
+            <span>Twitter</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Simple typing effect
+      const typingElement = document.getElementById("typing");
+      const phrases = [
+        "Full-Stack Developer",
+        "UI/UX Enthusiast",
+        "Problem Solver",
+        "Innovation Driver",
+        "Cat Dad",
+      ];
+      let phraseIndex = 0;
+      let charIndex = 0;
+      let isDeleting = false;
+
+      function typeEffect() {
+        const currentPhrase = phrases[phraseIndex];
+
+        if (isDeleting) {
+          typingElement.textContent = currentPhrase.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typingElement.textContent = currentPhrase.substring(0, charIndex + 1);
+          charIndex++;
+        }
+
+        let typeSpeed = isDeleting ? 50 : 100;
+
+        if (!isDeleting && charIndex === currentPhrase.length) {
+          typeSpeed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          typeSpeed = 500;
+        }
+
+        setTimeout(typeEffect, typeSpeed);
+      }
+
+      // Start typing effect
+      setTimeout(typeEffect, 1000);
+
+      // Smooth scrolling
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Scroll reveal animation
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("visible");
+          }
+        });
+      }, observerOptions);
+
+      // Observe fade-in elements
+      document.querySelectorAll(".fade-in").forEach((el) => {
+        observer.observe(el);
+      });
+
+      console.log("Portfolio loaded successfully!");
+    </script>
   </body>
 </html>
